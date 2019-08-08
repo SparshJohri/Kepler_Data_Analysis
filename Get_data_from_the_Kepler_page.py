@@ -53,8 +53,7 @@ for tr_value in range(1, len(programs)+1):
     camp = list()
     for j in range(len(csv_file)):
         camp.append(2)
-    csv_file = csv_file.assign(Campaign = camp) #adds in the campaign number as a column
-    
+    csv_file = csv_file.assign(Campaign = camp) #adds in the campaign number as a column    
     csv_file.set_index('EPIC ID', inplace=True, drop = True) 
     #sets up the EPIC ID's as the index of the csv file
     
@@ -86,7 +85,8 @@ for i in uniques:
         #if an EPIC ID occurs more than once, 
         #query "information1" and only put in the first value into "my_dataframe"
     else:
-        my_dataframe.loc[i] = information1.loc[i] 
+        if type(information1.loc[i][information1.columns[0]])!=str:
+            my_dataframe.loc[i] = information1.loc[i] 
         #if an EPIC ID only occurs once, 
         #query "information1" and put the output of the query into "my_dataframe"
     
@@ -96,6 +96,9 @@ for i in uniques:
 
 data = my_dataframe #gives the data a nicer name than "my_dataframe"
 
-
+export_csv = data.to_csv (r'C:\Sparsh Johri 2019\Kepler Data\Campaign_2_EPICS.csv')
 print("End of Program")
 driver.quit()
+
+
+    
