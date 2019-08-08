@@ -24,9 +24,9 @@ for id in epic_ids:
     i= i+1
     
     page = 'http://simbad.u-strasbg.fr/simbad/sim-id?Ident=EPIC+'+str(id)+'&submit=submit+id'
-    print('\n getting page: ',page)
+    #print('\n getting page: ',page)
     driver.get(page) #get the page
-    print('acquired ')
+    
     try:
         ids = driver.find_elements_by_xpath("//*[contains(@id,'basic_data')]") 
         path = '//*[@id="' + ids[0].get_attribute('id') +'"]/table/tbody/tr/td/font' 
@@ -46,6 +46,8 @@ for id in epic_ids:
             pms.append(id)
             try:
                 spt = 'Nan'
+                
+                #soectral type is somewhere row 6-9; you have to search for it
                 for index in range(6,9):
                     #print(index)
                     path = '//*[@id="' + ids[0].get_attribute('id') +'"]/table/tbody/tr['+str(index)+']/td'
@@ -56,11 +58,12 @@ for id in epic_ids:
                         break
             except IndexError:
                  pass     
-            print(spt)
+            #print(spt)
             if( spt.find('Nan') == -1) :
                 path = '//*[@id="' + ids[0].get_attribute('id') +'"]/table/tbody/tr['+str(index)+']/td[2]/b/tt' 
                 element = driver.find_elements_by_xpath(path)    
-                print(element[0].text)
+                spt = element[0].text
+            print(spt+'\n')
     except IndexError:
         print('not found') 
         
