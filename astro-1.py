@@ -16,8 +16,8 @@ import pandas as pd
 df=pd.read_csv("CodyTable.csv")
 epic_ids= df.iloc[ : ,0]
 
-driver = webdriver.Chrome('chromedriver.exe')
-
+driver = webdriver.Chrome('C:\\Users\\bhata\\Documents\\K2fov\\Web Scraping\\chromedriver.exe') 
+-
 pms= list()
 i=0
 for id in epic_ids:
@@ -47,7 +47,7 @@ for id in epic_ids:
             try:
                 spt = 'Nan'
                 
-                #soectral type is somewhere row 6-9; you have to search for it
+                #spectral type is somewhere row 6-9; you have to search for it
                 for index in range(6,9):
                     #print(index)
                     path = '//*[@id="' + ids[0].get_attribute('id') +'"]/table/tbody/tr['+str(index)+']/td'

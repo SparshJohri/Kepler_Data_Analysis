@@ -9,7 +9,7 @@ from selenium import webdriver
 import pandas
 
 
-driver = webdriver.Chrome('C:\\Users\\bhata\\Documents\\K2fov\\Web Scraping\\chromedriver.exe') 
+driver = webdriver.Chrome('chromedriver.exe') 
 #establishes the driver
 print("Driver established")
 #-------------------------------------------------------------------------------------------------------------
