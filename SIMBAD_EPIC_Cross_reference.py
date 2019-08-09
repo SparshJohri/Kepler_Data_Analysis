@@ -52,7 +52,8 @@ for id in epics["EPIC ID"]:
     except IndexError: #checks if the given EPIC ID is even in the SIMBAD database
         print('EPIC ID ', id, ': not in database')
 
-    except TimeoutError: #checks if a web page takes too long to load (that would crash the program if not addressed)
+    except TimeoutError: 
+        #checks if a web page takes too long to load (that would crash the program if not addressed; doesn't actually work, for some reason)
         print("Web page took too long to download. Terminating the for-loop.")
         break
     #-------------------------------------------------------------------------------------------------------------
