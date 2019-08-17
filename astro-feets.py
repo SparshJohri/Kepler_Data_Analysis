@@ -28,9 +28,11 @@ ds=syn.create_normal(0, 1, 0, .0008, seed=42)
 print(ds.data.B)
 
 #sys.exit(0)
+epic_ids= [203382255]
 for id in epic_ids:
     pixelfile = search_targetpixelfile(id).download(quality_bitmask='hardest')
     lc = pixelfile.to_lightcurve(aperture_mask='all');
+    
     epic_data = {
         "I": {
             "time":lc.time,
@@ -41,9 +43,10 @@ for id in epic_ids:
     flc = dataset.base.Data(id=str(id), ds_name='K2', \
                                description='Cody paper',bands=('I'), \
                                metadata=None,data=epic_data)
-    print(flc)
-    plt.plot(flc.data.I.time, flc.data.I.magnitude, '*-')
+    plt.plot(flc.data.I.time, flc.data.I.magnitude, '-')
+    plt.savefig('\\temp\\'+str(id)+'.png' , format='png',dpi=400)   
     plt.show()
+    
     #lc.plot()
     #break
     
