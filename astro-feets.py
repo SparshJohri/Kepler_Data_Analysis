@@ -12,6 +12,8 @@ import feets.datasets as dataset
 import feets.datasets.synthetic as syn
 from scipy import stats
 from matplotlib import pyplot as plt
+from scipy import signal
+import numpy as np
 
 import sys
 
@@ -21,17 +23,30 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
 import pandas as pd
+
+
+def moving_average(a, n=3) :
+    ret = np.cumsum(a, dtype=float)
+    ret[n:] = ret[n:] - ret[:-n]
+    return ret[n - 1:] / n
+
+
+
 df=pd.read_csv("CodyTable.csv")
 epic_ids= df.iloc[ : ,0]
 
-ds=syn.create_normal(0, 1, 0, .0008, seed=42)
-print(ds.data.B)
+ 
 
 #sys.exit(0)
-epic_ids= [203382255]
+#fig2=[203954898, 203905576, 203928175, 203382255, 204233955]
+epic_ids= [204440603]
 for id in epic_ids:
     pixelfile = search_targetpixelfile(id).download(quality_bitmask='hardest')
     lc = pixelfile.to_lightcurve(aperture_mask='all');
+    lc=lc.remove_outliers(sigma=5)
+    #lc.flux=signal.medfilt(lc.flux,25) 
+    #lc.flux=signal.wiener(lc.flux,55) 
+    #lc2_flux=signal.savgol_filter(lc.flux,15,7 ) 
     
     epic_data = {
         "I": {
@@ -39,19 +54,24 @@ for id in epic_ids:
             "magnitude": lc.flux,
             "error": lc.flux_err}
     }
-    #f_lc = dataset.base.LightCurve(lc.time,lc.flux,lc.flux_err)
+    avg = 5
+    lc.flux = moving_average(lc.flux,avg)
+    lc.time = moving_average(lc.time,avg)
+    print(len(lc.flux))    
+    
     flc = dataset.base.Data(id=str(id), ds_name='K2', \
                                description='Cody paper',bands=('I'), \
                                metadata=None,data=epic_data)
-    plt.plot(flc.data.I.time, flc.data.I.magnitude, '-')
-    plt.savefig('\\temp\\'+str(id)+'.png' , format='png',dpi=400)   
-    plt.show()
-    
-    #lc.plot()
+    #plt.plot(flc.data.I.time, flc.data.I.magnitude, '-')
+    print(str(id))
+    #plt.savefig('\\temp\\'+str(id)+'.png' , format='png',dpi=400)   
+    #plt.show()
+    print('\n\n')
+    lc.plot()
     #break
     
-
-sys.exit(0)
+print('\n\n\n')
+sys.exit()
 
 driver = webdriver.Chrome('chromedriver.exe')
 pms= list()
