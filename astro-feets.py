@@ -39,11 +39,12 @@ epic_ids= df.iloc[ : ,0]
 
 #sys.exit(0)
 #fig2=[203954898, 203905576, 203928175, 203382255, 204233955]
-epic_ids= [204440603]
+epic_ids= [204342099]
 for id in epic_ids:
     pixelfile = search_targetpixelfile(id).download(quality_bitmask='hardest')
     lc = pixelfile.to_lightcurve(aperture_mask='all');
-    lc=lc.remove_outliers(sigma=5)
+    print(lc)
+    #lc=lc.remove_outliers(sigma=5)
     #lc.flux=signal.medfilt(lc.flux,25) 
     #lc.flux=signal.wiener(lc.flux,55) 
     #lc2_flux=signal.savgol_filter(lc.flux,15,7 ) 
