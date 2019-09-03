@@ -16,8 +16,7 @@ import pandas as pd
 df=pd.read_csv("CodyTable.csv")
 epic_ids= df.iloc[ : ,0]
 
-driver = webdriver.Chrome('C:\\Users\\bhata\\Documents\\K2fov\\Web Scraping\\chromedriver.exe') 
--
+driver = webdriver.Chrome('C:\\Users\\bhata\\Documents\\K2fov\\Web Scraping\\chromedriver.exe')
 pms= list()
 i=0
 for id in epic_ids:
